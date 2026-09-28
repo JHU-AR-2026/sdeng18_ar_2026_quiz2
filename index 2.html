@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Babylon.js Playground</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+
+  <!-- Babylon globals (kept so window.BABYLON is available if your app expects it) -->
+  <script src="https://assets.babylonjs.com/generated/Assets.js"></script>
+  <script src="https://cdn.babylonjs.com/recast.js"></script>
+  <script src="https://cdn.babylonjs.com/ammo.js"></script>
+  <script src="https://cdn.babylonjs.com/havok/HavokPhysics_umd.js"></script>
+  <script src="https://cdn.babylonjs.com/cannon.js"></script>
+  <script src="https://cdn.babylonjs.com/Oimo.js"></script>
+  <script src="https://cdn.babylonjs.com/earcut.min.js"></script>
+  <script src="https://cdn.babylonjs.com/babylon.js"></script>
+  <script src="https://cdn.babylonjs.com/materialsLibrary/babylonjs.materials.min.js"></script>
+  <script src="https://cdn.babylonjs.com/proceduralTexturesLibrary/babylonjs.proceduralTextures.min.js"></script>
+  <script src="https://cdn.babylonjs.com/postProcessesLibrary/babylonjs.postProcess.min.js"></script>
+  <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.js"></script>
+  <script src="https://cdn.babylonjs.com/serializers/babylonjs.serializers.min.js"></script>
+  <script src="https://cdn.babylonjs.com/gui/babylon.gui.min.js"></script>
+  <script src="https://cdn.babylonjs.com/addons/babylonjs.addons.min.js"></script>
+  <script src="https://cdn.babylonjs.com/inspector/babylon.inspector.bundle.js"></script>
+
+  <style>
+    html,body,#renderCanvas{width:100%;height:100%;margin:0;padding:0;overflow:hidden;background:#000}
+  </style>
+</head>
+<body>
+  <canvas id="renderCanvas"></canvas>
+  <script type="module">
+    // Turn bundle text into a module URL
+    const code = "// snapshot:index.js\nvar createScene = function() {\n  var scene = new BABYLON.Scene(engine);\n  var camera = new BABYLON.FreeCamera(\n    \"camera1\",\n    new BABYLON.Vector3(0, 5, -10),\n    scene\n  );\n  camera.setTarget(BABYLON.Vector3.Zero());\n  camera.attachControl(canvas, true);\n  var light = new BABYLON.HemisphericLight(\n    \"light\",\n    new BABYLON.Vector3(0, 1, 0),\n    scene\n  );\n  light.intensity = 0.7;\n  var box = BABYLON.MeshBuilder.CreateBox(\"box\", { size: 2 }, scene);\n  box.position.y = 1;\n  var material = new BABYLON.StandardMaterial(\"material\", scene);\n  box.material = material;\n  var ground = BABYLON.MeshBuilder.CreateGround(\n    \"ground\",\n    { width: 6, height: 6 },\n    scene\n  );\n  var time = 0;\n  scene.registerBeforeRender(function() {\n    time += 0.02;\n    var value = 0.1 * Math.sin(time);\n    material.diffuseColor = new BABYLON.Color3(\n      0.82 + value,\n      0.71 + value,\n      0.93\n    );\n  });\n  return scene;\n};\nexport {\n  createScene\n};\n//# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsic25hcHNob3Q6aW5kZXguanMiXSwKICAic291cmNlc0NvbnRlbnQiOiBbImV4cG9ydCBjb25zdCBjcmVhdGVTY2VuZSA9IGZ1bmN0aW9uICgpIHtcbiAgICB2YXIgc2NlbmUgPSBuZXcgQkFCWUxPTi5TY2VuZShlbmdpbmUpO1xuXG4gICAgdmFyIGNhbWVyYSA9IG5ldyBCQUJZTE9OLkZyZWVDYW1lcmEoXG4gICAgICAgIFwiY2FtZXJhMVwiLFxuICAgICAgICBuZXcgQkFCWUxPTi5WZWN0b3IzKDAsIDUsIC0xMCksXG4gICAgICAgIHNjZW5lXG4gICAgKTtcblxuICAgIGNhbWVyYS5zZXRUYXJnZXQoQkFCWUxPTi5WZWN0b3IzLlplcm8oKSk7XG4gICAgY2FtZXJhLmF0dGFjaENvbnRyb2woY2FudmFzLCB0cnVlKTtcblxuICAgIHZhciBsaWdodCA9IG5ldyBCQUJZTE9OLkhlbWlzcGhlcmljTGlnaHQoXG4gICAgICAgIFwibGlnaHRcIixcbiAgICAgICAgbmV3IEJBQllMT04uVmVjdG9yMygwLCAxLCAwKSxcbiAgICAgICAgc2NlbmVcbiAgICApO1xuXG4gICAgbGlnaHQuaW50ZW5zaXR5ID0gMC43O1xuXG4gICAgLy8gQ3JlYXRlIGEgY3ViZVxuICAgIHZhciBib3ggPSBCQUJZTE9OLk1lc2hCdWlsZGVyLkNyZWF0ZUJveChcImJveFwiLCB7c2l6ZTogMn0sIHNjZW5lKTtcbiAgICBib3gucG9zaXRpb24ueSA9IDE7XG5cbiAgICAvLyBDcmVhdGUgbWF0ZXJpYWxcbiAgICB2YXIgbWF0ZXJpYWwgPSBuZXcgQkFCWUxPTi5TdGFuZGFyZE1hdGVyaWFsKFwibWF0ZXJpYWxcIiwgc2NlbmUpO1xuICAgIGJveC5tYXRlcmlhbCA9IG1hdGVyaWFsO1xuXG4gICAgLy8gR3JvdW5kXG4gICAgdmFyIGdyb3VuZCA9IEJBQllMT04uTWVzaEJ1aWxkZXIuQ3JlYXRlR3JvdW5kKFxuICAgICAgICBcImdyb3VuZFwiLFxuICAgICAgICB7d2lkdGg6IDYsIGhlaWdodDogNn0sXG4gICAgICAgIHNjZW5lXG4gICAgKTtcblxuICAgIC8vIENoYW5nZSBjdWJlIGNvbG9yIHNpbnVzb2lkYWxseVxuICAgIHZhciB0aW1lID0gMDtcblxuICAgIHNjZW5lLnJlZ2lzdGVyQmVmb3JlUmVuZGVyKGZ1bmN0aW9uICgpIHtcbiAgICAgICAgdGltZSArPSAwLjAyO1xuXG4gICAgICAgIHZhciB2YWx1ZSA9IDAuMSAqIE1hdGguc2luKHRpbWUpO1xuXG4gICAgICAgIG1hdGVyaWFsLmRpZmZ1c2VDb2xvciA9IG5ldyBCQUJZTE9OLkNvbG9yMyhcbiAgICAgICAgICAgIDAuODIgKyB2YWx1ZSxcbiAgICAgICAgICAgIDAuNzEgKyB2YWx1ZSxcbiAgICAgICAgICAgIDAuOTNcbiAgICAgICAgKTtcbiAgICB9KTtcblxuICAgIHJldHVybiBzY2VuZTtcbn07XG4vLyMgc291cmNlVVJMPWZpbGU6Ly8vcGcvaW5kZXguanMiXSwKICAibWFwcGluZ3MiOiAiO0FBQU8sSUFBTSxjQUFjLFdBQVk7QUFDbkMsTUFBSSxRQUFRLElBQUksUUFBUSxNQUFNLE1BQU07QUFFcEMsTUFBSSxTQUFTLElBQUksUUFBUTtBQUFBLElBQ3JCO0FBQUEsSUFDQSxJQUFJLFFBQVEsUUFBUSxHQUFHLEdBQUcsR0FBRztBQUFBLElBQzdCO0FBQUEsRUFDSjtBQUVBLFNBQU8sVUFBVSxRQUFRLFFBQVEsS0FBSyxDQUFDO0FBQ3ZDLFNBQU8sY0FBYyxRQUFRLElBQUk7QUFFakMsTUFBSSxRQUFRLElBQUksUUFBUTtBQUFBLElBQ3BCO0FBQUEsSUFDQSxJQUFJLFFBQVEsUUFBUSxHQUFHLEdBQUcsQ0FBQztBQUFBLElBQzNCO0FBQUEsRUFDSjtBQUVBLFFBQU0sWUFBWTtBQUdsQixNQUFJLE1BQU0sUUFBUSxZQUFZLFVBQVUsT0FBTyxFQUFDLE1BQU0sRUFBQyxHQUFHLEtBQUs7QUFDL0QsTUFBSSxTQUFTLElBQUk7QUFHakIsTUFBSSxXQUFXLElBQUksUUFBUSxpQkFBaUIsWUFBWSxLQUFLO0FBQzdELE1BQUksV0FBVztBQUdmLE1BQUksU0FBUyxRQUFRLFlBQVk7QUFBQSxJQUM3QjtBQUFBLElBQ0EsRUFBQyxPQUFPLEdBQUcsUUFBUSxFQUFDO0FBQUEsSUFDcEI7QUFBQSxFQUNKO0FBR0EsTUFBSSxPQUFPO0FBRVgsUUFBTSxxQkFBcUIsV0FBWTtBQUNuQyxZQUFRO0FBRVIsUUFBSSxRQUFRLE1BQU0sS0FBSyxJQUFJLElBQUk7QUFFL0IsYUFBUyxlQUFlLElBQUksUUFBUTtBQUFBLE1BQ2hDLE9BQU87QUFBQSxNQUNQLE9BQU87QUFBQSxNQUNQO0FBQUEsSUFDSjtBQUFBLEVBQ0osQ0FBQztBQUVELFNBQU87QUFDWDsiLAogICJuYW1lcyI6IFtdCn0K\n";
+    const blob = new Blob([code], { type: 'text/javascript' });
+    const url = URL.createObjectURL(blob);
+
+    const BABYLON = window.BABYLON;
+    const canvas = document.getElementById('renderCanvas');
+
+    // Import your bundled app (which exports createScene / default)
+    const mod = await import(url);
+
+    let engine = null;
+    if (typeof mod.createEngine === 'function') {
+      try { engine = await mod.createEngine(); } catch {}
+    }
+    if (!engine) {
+      engine = new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true });
+    }
+    window.engine = engine; window.canvas = canvas;
+
+    let createScene = mod.createScene || mod.default;
+    if (!createScene && mod.Playground?.CreateScene) createScene = (e,c)=>mod.Playground.CreateScene(e,c);
+    if (!createScene) throw new Error('No createScene() export found.');
+
+    const scene = await (createScene(engine, canvas) ?? createScene());
+    engine.runRenderLoop(()=>scene.render());
+    addEventListener('resize', ()=>engine.resize());
+
+    addEventListener('unload', ()=> URL.revokeObjectURL(url));
+  </script>
+</body>
+</html>
